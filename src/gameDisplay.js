@@ -1,4 +1,4 @@
-const { getData } = require('./initLib.js');
+const { getData } = require('./mineFieldLib.js');
 const gameData = getData('src/gameData.json');
 
 const createTable = ({ field }) => field.reverse().map(row => row.join(' | ')).join('\n');

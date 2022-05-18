@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { getData, writeData, upDate } = require('./initLib.js');
+const { getData, writeData, upDate } = require('./mineFieldLib.js');
 
 const validMoves = ['f', 'b', 'l', 'r'];
 
