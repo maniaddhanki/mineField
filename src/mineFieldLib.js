@@ -1,5 +1,38 @@
 const fs = require('fs');
 
+const validMoves = ['f', 'b', 'l', 'r'];
+
+const isValidMove = move => validMoves.includes(move);
+
+const forward = ({ position, columns }) => position + columns;
+
+const backward = ({ position, columns }) => position - columns;
+
+const left = ({ position }) => position - 1;
+
+const right = ({ position }) => position + 1;
+
+const moves = { f: forward, b: backward, l: left, r: right };
+
+const isSafe = ({ position, safePath }) => safePath.includes(position);
+
+const isWon = ({ position, destination }) => position === destination;
+
+const makeAMove = function (gameData, direction) {
+  if (!isValidMove(direction)) {
+    return upDate(gameData, 'invalid move', 'stop');
+  }
+  gameData.position = moves[direction](gameData);
+
+  if (!isSafe(gameData)) {
+    return upDate(gameData, 'You landed on a mine', 'stop');
+  }
+  if (isWon(gameData)) {
+    return upDate(gameData, 'YOU WON', 'stop');
+  }
+  return gameData;
+};
+
 const nNumbers = function (start, count) {
   const numbers = [];
   for (let counter = 0; counter < count; counter++) {
@@ -23,8 +56,6 @@ const isValidStart = ({ position, columns }) => {
   return generateARow(start, columns).includes(position);
 };
 
-const isSafe = ({ position, safePath }) => safePath.includes(position);
-
 const upDate = function (gameField, message, status) {
   const gameData = { ...gameField };
   gameData.message = message;
@@ -40,6 +71,13 @@ const firstRound = function (gameField) {
     return upDate(gameField, 'You landed on a mine', 'stop');
   }
   return upDate(gameField, 'you are at ' + gameField.position, 'continue');
+};
+
+const initGame = function (position) {
+  const gameField = getData('src/map.json');
+  gameField.position = position;
+  gameField.field = createfield(gameField);
+  writeData('src/gameData.json', firstRound(gameField));
 };
 
 const getData = function (path) {
@@ -58,14 +96,10 @@ const writeData = function (path, content) {
   }
 };
 
-const initGame = function (position) {
-  const gameField = getData('src/map.json');
-  gameField.position = position;
-  gameField.field = createfield(gameField);
-  writeData('src/gameData.json', firstRound(gameField));
+const main = function (direction) {
+  const gameData = getData('src/gameData.json');
+  writeData('src/gameData.json', makeAMove(gameData, direction));
 };
 
-exports.getData = getData;
-exports.writeData = writeData;
-exports.upDate = upDate;
+exports.main = main;
 exports.initGame = initGame;
