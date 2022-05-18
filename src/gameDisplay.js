@@ -1,8 +1,14 @@
 const { getData } = require('./mineFieldLib.js');
-const gameData = getData('src/gameData.json');
 
-const createTable = ({ field }) => field.reverse().map(row => row.join(' | ')).join('\n');
+const createTable = ({ field }) =>
+  field.reverse().map(row => row.join(' | ')).join('\n');
 
-const pointLocation = gameData => createTable(gameData).replace(gameData.position, '📍');
+const pointLocation =
+  gameData => createTable(gameData).replace(gameData.position, '📍');
 
-console.log(pointLocation(gameData));
+const generateReport = () => {
+  const gameData = getData('src/gameData.json');
+  return pointLocation(gameData).concat('\n', gameData.message);
+};
+
+exports.generateReport = generateReport;
