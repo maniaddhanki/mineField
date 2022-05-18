@@ -1,5 +1,5 @@
 const { getData } = require('./initLib.js');
-const gameData = getData('./gameData.json');
+const gameData = getData('src/gameData.json');
 
 const createTable = ({ field }) => field.reverse().map(row => row.join(' | ')).join('\n');
 

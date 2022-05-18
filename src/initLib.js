@@ -59,10 +59,10 @@ const writeData = function (path, content) {
 };
 
 const initGame = function (position) {
-  const gameField = getData('map.json');
+  const gameField = getData('src/map.json');
   gameField.position = position;
   gameField.field = createfield(gameField);
-  writeData('gameData.json', firstRound(gameField));
+  writeData('src/gameData.json', firstRound(gameField));
 };
 
 exports.getData = getData;

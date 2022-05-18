@@ -35,8 +35,8 @@ const makeAMove = function (gameData, direction) {
 };
 
 const main = function (direction) {
-  const gameData = getData('./gameData.json');
-  writeData('./gameData.json', makeAMove(gameData, direction));
+  const gameData = getData('src/gameData.json');
+  writeData('src/gameData.json', makeAMove(gameData, direction));
 };
 
 const [direction] = process.argv.slice(2);
